@@ -1,6 +1,7 @@
 package funciones;
 import java.io.BufferedReader;
 import java.io.IOException;
+import org.xmldb.api.base.Collection;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
@@ -11,24 +12,38 @@ import org.xmldb.api.modules.XPathQueryService;
 
 public class Consultas {
     
-    public static void bajas (XPathQueryService servicio , BufferedReader leer) throws IOException, XMLDBException {
+    public static void consultaCuota (Collection col , BufferedReader leer) throws IOException, XMLDBException {
         
-        int dep;
+        XPathQueryService servicio = (XPathQueryService) col.getService("XPathQueryService", "1.0");
         
-        
-        System.out.println("Introducir número de departamento a buscar:");
-        dep=Integer.parseInt(leer.readLine());
-        
-        ResourceSet result=servicio.query("for $dep in /departamentos/departamento[numero = "+dep+"] return $dep");
+        ResourceSet result=servicio.query("for $socio in /Socios/socio "
+                                        + "let $codigo := $socio/@codigo "
+                                        + "let $cuota := $socio/cuota "
+                                        + "for $actividad in /Actividades/actividad[@codigo=$codigo] "
+                                        + "let $cuota_fin := sum()"
+                                        + "   ");
         ResourceIterator i = result.getIterator();
         
-        if(!i.hasMoreResources())
-            System.out.println("No existe ningún departamento con ese número.");
-        else{
-            
-            System.out.println("");
-            //lo tengo!!
-        }  
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    public static void exportarDatos (Collection col , BufferedReader leer) throws IOException, XMLDBException {
+        
+        XPathQueryService servicio = (XPathQueryService) col.getService("XPathQueryService", "1.0");
+        
+        
+        
+        
+        
+        
+        
+        
     }
 
 }
